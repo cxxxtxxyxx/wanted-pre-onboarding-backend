@@ -67,6 +67,13 @@ public class PostService {
         findPost.update(updatePostRequestDto.getTitle(), updatePostRequestDto.getContent());
     }
 
+    public void delete(Long loginMemberId, Long postId) {
+        Post findPost = getPostById(postId);
+        validateAuthorization(loginMemberId, findPost.getMember().getId());
+
+        postRepository.delete(findPost);
+    }
+
     private void validateAuthorization(Long loginMemberId, Long postMemberId) {
         if (!loginMemberId.equals(postMemberId)) {
             throw new UnauthorizationMemberException(PostErrorCode.FORBIDDEN);

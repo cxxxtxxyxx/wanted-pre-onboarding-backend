@@ -48,4 +48,13 @@ public class PostController {
         postService.update(loginMemberId, postId, updatePostRequestDto);
         return APIDataResponse.empty(PostCode.UPDATED);
     }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<?> delete(
+            @LoginMemberId Long loginMemberId,
+            @PathVariable Long postId
+    ) {
+        postService.delete(loginMemberId, postId);
+        return APIDataResponse.empty(PostCode.DELETED);
+    }
 }
