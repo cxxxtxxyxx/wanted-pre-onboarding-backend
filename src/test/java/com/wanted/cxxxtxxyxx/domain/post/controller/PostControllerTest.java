@@ -42,7 +42,7 @@ class PostControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @DisplayName("[/api/v1/posts] - 게시물을 생성합니다.")
+    @DisplayName("[POST][/api/v1/posts] - 게시물을 생성합니다.")
     @Test
     @WithMockUser(username = "1")
     void createPostTest() throws Exception {

@@ -48,7 +48,7 @@ class MemberControllerTest {
     private MemberService memberService;
 
     @Test
-    @DisplayName("[/api/v1/signup] - 회원가입을 진행한다.")
+    @DisplayName("[POST][/api/v1/signup] - 회원가입을 진행한다.")
     void createMemberTest() throws Exception {
         // Given
         SignUpRequestDto requestBody = SignUpRequestDto.builder()
@@ -75,7 +75,7 @@ class MemberControllerTest {
     }
 
     @Test
-    @DisplayName("[/api/v1/signin] - 로그인을 진행한다.")
+    @DisplayName("[POST][/api/v1/signin] - 로그인을 진행한다.")
     void loginTest() throws Exception {
         // Given
         SignInRequestDto requestBody = SignInRequestDto.builder()
