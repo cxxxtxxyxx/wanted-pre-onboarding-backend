@@ -1,11 +1,15 @@
 package com.wanted.cxxxtxxyxx.domain.entity;
 
+import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Builder
 public class Post {
 
     @Id
