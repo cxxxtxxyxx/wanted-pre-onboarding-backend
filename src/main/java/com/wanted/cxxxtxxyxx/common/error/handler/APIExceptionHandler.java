@@ -7,6 +7,7 @@ import com.wanted.cxxxtxxyxx.common.response.code.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -23,6 +24,13 @@ public class APIExceptionHandler {
     protected ResponseEntity<APIErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("handleMethodArgumentNotValidException", e);
         final APIErrorResponse response = APIErrorResponse.of(CommonErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    protected ResponseEntity<APIErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        log.error("handleHttpMessageNotReadableException", e);
+        final APIErrorResponse response = APIErrorResponse.of(CommonErrorCode.INVALID_REQUEST_BODY);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
