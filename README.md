@@ -49,4 +49,4 @@
 <br>
 
 ## 구현한 API의 동작을 촬영한 데모 영상 링크
-- [데모 영상 링크](https://drive.google.com/file/d/1w8UMPzdlCwtB1LnKj5VzDv5eTsvGkOlv/view?usp=drive_link)
+- [데모 영상 링크](https://drive.google.com/file/d/19kFk3tm4FwjdYZwJdsC4FyX-A7FUfLax/view?usp=drive_link)
