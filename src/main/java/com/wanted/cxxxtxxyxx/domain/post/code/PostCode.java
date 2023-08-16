@@ -7,7 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum PostCode implements Code {
-    CREATED(201, "PS001", "게시글 생성에 성공하였습니다");
+    CREATED(201, "PS001", "게시글 생성에 성공하였습니다"),
+    READ_SPECIFIC_POST(200, "PS002", "해당 게시물 조회에 성공하였습니다."),
+    UPDATED(200, "PS003", "해당 게시물 수정에 성공하였습니다"),;
 
     private final int status;
     private final String code;

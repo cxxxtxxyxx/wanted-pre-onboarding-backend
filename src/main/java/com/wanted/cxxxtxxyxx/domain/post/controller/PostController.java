@@ -32,4 +32,11 @@ public class PostController {
         return APIDataResponse.of(responseDto, PostCode.CREATED);
     }
 
+    @GetMapping("/{postId}")
+    public ResponseEntity<?> getById(
+            @PathVariable Long postId
+    ) {
+        ReadPostByIdResponstDto responstDto = postService.getById(postId);
+        return APIDataResponse.of(responstDto, PostCode.READ_SPECIFIC_POST);
+    }
 }
