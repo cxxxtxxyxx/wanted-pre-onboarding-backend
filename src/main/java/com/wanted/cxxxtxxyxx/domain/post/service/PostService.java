@@ -7,10 +7,7 @@ import com.wanted.cxxxtxxyxx.domain.entity.Post;
 import com.wanted.cxxxtxxyxx.domain.member.dto.MemberResponseDto;
 import com.wanted.cxxxtxxyxx.domain.member.repository.MemberRepository;
 import com.wanted.cxxxtxxyxx.domain.post.code.PostErrorCode;
-import com.wanted.cxxxtxxyxx.domain.post.dto.CreatePostRequestDto;
-import com.wanted.cxxxtxxyxx.domain.post.dto.CreatePostResponseDto;
-import com.wanted.cxxxtxxyxx.domain.post.dto.ReadPostResponstDto;
-import com.wanted.cxxxtxxyxx.domain.post.dto.UpdatePostRequestDto;
+import com.wanted.cxxxtxxyxx.domain.post.dto.*;
 import com.wanted.cxxxtxxyxx.domain.post.exception.NotFoundPostException;
 import com.wanted.cxxxtxxyxx.domain.post.exception.UnauthorizationMemberException;
 import com.wanted.cxxxtxxyxx.domain.post.repository.PostRepository;
@@ -31,7 +28,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
 
-    public CreatePostResponseDto create(Long memberId, CreatePostRequestDto createPostRequestDto) {
+    public ReadPostResponstDto create(Long memberId, CreatePostRequestDto createPostRequestDto) {
         Member loginMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotExistLoginInformationException(CommonErrorCode.HANDLE_UNAUTHORIZED));
 
@@ -48,10 +45,15 @@ public class PostService {
                 .email(loginMember.getEmail())
                 .build();
 
-        return CreatePostResponseDto.builder()
+        PostResponseDto postResponseDto = PostResponseDto.builder()
+                .id(newPost.getId())
+                .title(newPost.getTitle())
+                .content(newPost.getContent())
+                .build();
+
+        return ReadPostResponstDto.builder()
                 .member(member)
-                .title(createPostRequestDto.getTitle())
-                .content(createPostRequestDto.getContent())
+                .post(postResponseDto)
                 .build();
     }
 
@@ -66,10 +68,15 @@ public class PostService {
                 .email(postMember.getEmail())
                 .build();
 
-        return ReadPostResponstDto.builder()
-                .member(memberResponseDto)
+        PostResponseDto postResponseDto = PostResponseDto.builder()
+                .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
+                .build();
+
+        return ReadPostResponstDto.builder()
+                .member(memberResponseDto)
+                .post(postResponseDto)
                 .build();
     }
 
@@ -109,10 +116,15 @@ public class PostService {
                             .email(post.getMember().getEmail())
                             .build();
 
-                    return ReadPostResponstDto.builder()
-                            .member(memberResponseDto)
+                    PostResponseDto postResponseDto = PostResponseDto.builder()
+                            .id(post.getId())
                             .title(post.getTitle())
                             .content(post.getContent())
+                            .build();
+
+                    return ReadPostResponstDto.builder()
+                            .member(memberResponseDto)
+                            .post(postResponseDto)
                             .build();
                 })
                 .collect(Collectors.toList());

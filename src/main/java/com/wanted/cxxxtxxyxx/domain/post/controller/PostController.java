@@ -28,7 +28,7 @@ public class PostController {
             @LoginMemberId Long loginMemberId,
             @RequestBody @Valid CreatePostRequestDto createPostRequestDto
     ) {
-        CreatePostResponseDto responseDto = postService.create(loginMemberId, createPostRequestDto);
+        ReadPostResponstDto responseDto = postService.create(loginMemberId, createPostRequestDto);
         return APIDataResponse.of(responseDto, PostCode.CREATED);
     }
 

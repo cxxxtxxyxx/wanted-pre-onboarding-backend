@@ -11,7 +11,5 @@ import lombok.*;
 public class ReadPostResponstDto {
 
     private MemberResponseDto member;
-
-    private String title;
-    private String content;
+    private PostResponseDto post;
 }
