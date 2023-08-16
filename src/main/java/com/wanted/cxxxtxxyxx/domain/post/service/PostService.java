@@ -9,14 +9,19 @@ import com.wanted.cxxxtxxyxx.domain.member.repository.MemberRepository;
 import com.wanted.cxxxtxxyxx.domain.post.code.PostErrorCode;
 import com.wanted.cxxxtxxyxx.domain.post.dto.CreatePostRequestDto;
 import com.wanted.cxxxtxxyxx.domain.post.dto.CreatePostResponseDto;
-import com.wanted.cxxxtxxyxx.domain.post.dto.ReadPostByIdResponstDto;
+import com.wanted.cxxxtxxyxx.domain.post.dto.ReadPostResponstDto;
 import com.wanted.cxxxtxxyxx.domain.post.dto.UpdatePostRequestDto;
 import com.wanted.cxxxtxxyxx.domain.post.exception.NotFoundPostException;
 import com.wanted.cxxxtxxyxx.domain.post.exception.UnauthorizationMemberException;
 import com.wanted.cxxxtxxyxx.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,10 +56,18 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public ReadPostByIdResponstDto getById(Long postId) {
+    public ReadPostResponstDto getById(Long postId) {
         Post post = getPostById(postId);
 
-        return ReadPostByIdResponstDto.builder()
+        Member postMember = post.getMember();
+
+        MemberResponseDto memberResponseDto = MemberResponseDto.builder()
+                .id(postMember.getId())
+                .email(postMember.getEmail())
+                .build();
+
+        return ReadPostResponstDto.builder()
+                .member(memberResponseDto)
                 .title(post.getTitle())
                 .content(post.getContent())
                 .build();
@@ -83,5 +96,25 @@ public class PostService {
     private Post getPostById(Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new NotFoundPostException(PostErrorCode.NOT_FOUND_POST));
+    }
+
+    public List<ReadPostResponstDto> getAll(int page, int size) {
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Post> pages = postRepository.findAllByOrderByIdDesc(pageRequest);
+        return pages.stream()
+                .map(post -> {
+                    MemberResponseDto memberResponseDto = MemberResponseDto.builder()
+                            .id(post.getMember().getId())
+                            .email(post.getMember().getEmail())
+                            .build();
+
+                    return ReadPostResponstDto.builder()
+                            .member(memberResponseDto)
+                            .title(post.getTitle())
+                            .content(post.getContent())
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 }
