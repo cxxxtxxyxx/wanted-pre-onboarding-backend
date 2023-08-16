@@ -2,6 +2,8 @@ package com.wanted.cxxxtxxyxx.domain.member.controller;
 
 import com.wanted.cxxxtxxyxx.common.response.APIDataResponse;
 import com.wanted.cxxxtxxyxx.domain.member.code.MemberCode;
+import com.wanted.cxxxtxxyxx.domain.member.dto.SignInRequestDto;
+import com.wanted.cxxxtxxyxx.domain.member.dto.SignInResponseDto;
 import com.wanted.cxxxtxxyxx.domain.member.dto.SignUpRequestDto;
 import com.wanted.cxxxtxxyxx.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +27,12 @@ public class MemberController {
         memberService.create(signUpRequestDto);
 
         return APIDataResponse.empty(MemberCode.CREATED);
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> signIn(@RequestBody @Valid SignInRequestDto signInRequestDto) {
+        SignInResponseDto responseDto = memberService.signIn(signInRequestDto);
+
+        return APIDataResponse.of(responseDto, MemberCode.LOGIN);
     }
 }
