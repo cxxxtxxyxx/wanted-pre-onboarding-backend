@@ -3,9 +3,11 @@ package com.wanted.cxxxtxxyxx.common.response;
 import com.wanted.cxxxtxxyxx.common.response.code.Code;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class APIDataResponse<T> {
