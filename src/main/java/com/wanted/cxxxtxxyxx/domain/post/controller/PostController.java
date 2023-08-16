@@ -5,13 +5,12 @@ import com.wanted.cxxxtxxyxx.common.response.APIDataResponse;
 import com.wanted.cxxxtxxyxx.domain.post.code.PostCode;
 import com.wanted.cxxxtxxyxx.domain.post.dto.CreatePostRequestDto;
 import com.wanted.cxxxtxxyxx.domain.post.dto.CreatePostResponseDto;
+import com.wanted.cxxxtxxyxx.domain.post.dto.ReadPostByIdResponstDto;
+import com.wanted.cxxxtxxyxx.domain.post.dto.UpdatePostRequestDto;
 import com.wanted.cxxxtxxyxx.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -38,5 +37,15 @@ public class PostController {
     ) {
         ReadPostByIdResponstDto responstDto = postService.getById(postId);
         return APIDataResponse.of(responstDto, PostCode.READ_SPECIFIC_POST);
+    }
+
+    @PutMapping("/{postId}")
+    public ResponseEntity<?> update(
+            @LoginMemberId Long loginMemberId,
+            @PathVariable Long postId,
+            @RequestBody @Valid UpdatePostRequestDto updatePostRequestDto
+    ) {
+        postService.update(loginMemberId, postId, updatePostRequestDto);
+        return APIDataResponse.empty(PostCode.UPDATED);
     }
 }

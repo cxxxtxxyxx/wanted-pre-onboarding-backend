@@ -49,4 +49,32 @@ public class PostService {
                 .content(createPostRequestDto.getContent())
                 .build();
     }
+
+    @Transactional(readOnly = true)
+    public ReadPostByIdResponstDto getById(Long postId) {
+        Post post = getPostById(postId);
+
+        return ReadPostByIdResponstDto.builder()
+                .title(post.getTitle())
+                .content(post.getContent())
+                .build();
+    }
+
+    public void update(Long loginMemberId, Long postId, UpdatePostRequestDto updatePostRequestDto) {
+        Post findPost = getPostById(postId);
+        validateAuthorization(loginMemberId, findPost.getMember().getId());
+
+        findPost.update(updatePostRequestDto.getTitle(), updatePostRequestDto.getContent());
+    }
+
+    private void validateAuthorization(Long loginMemberId, Long postMemberId) {
+        if (!loginMemberId.equals(postMemberId)) {
+            throw new UnauthorizationMemberException(PostErrorCode.FORBIDDEN);
+        }
+    }
+
+    private Post getPostById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new NotFoundPostException(PostErrorCode.NOT_FOUND_POST));
+    }
 }
