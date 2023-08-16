@@ -49,8 +49,3 @@
 <br>
 
 ## 구현한 API의 동작을 촬영한 데모 영상 링크
-    - [x] MemberController TC 추가
-    - [x] MemberService TC 추가
-- [x] Post TC 추가
-    - [x] PostController TC 추가
-    - [x] PostService TC 추가
